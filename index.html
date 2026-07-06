@@ -27,21 +27,35 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-light) 100%);
             color: var(--text-white);
-            overflow-x: hidden;
-            min-height: 100vh;
+            overflow: hidden; /* Aşağı kaydırmayı tamamen engellemek için */
+            height: 100vh;
+            width: 100vw;
+            position: relative;
         }
 
         /* Giriş Ekranı (Neon Efektli) */
         .hero {
-            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
             padding: 20px;
             background: radial-gradient(circle at center, #1e3a8a 0%, var(--bg-dark) 70%);
+            z-index: 10;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        /* Mektup açıldığında hero ekranının gizlenmesi için sınıf */
+        .hero.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
         }
 
         .hero h1 {
@@ -59,44 +73,68 @@
             line-height: 1.6;
             color: var(--text-gray);
             font-weight: 300;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
-        .scroll-down {
-            position: absolute;
-            bottom: 30px;
-            font-size: 1.2rem;
+        /* Geliştirilmiş Buton Tasarımı */
+        .open-btn {
+            background: rgba(0, 180, 216, 0.1);
+            border: 2px solid var(--blue-bright);
             color: var(--blue-bright);
-            animation: bounce 2s infinite;
-            text-align: center;
-            opacity: 0.8;
-            background: none;
-            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            border-radius: 50px;
             cursor: pointer;
-            font-family: inherit;
+            box-shadow: 0 0 15px rgba(144, 224, 239, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Ana İçerik Alanı */
+        .open-btn:hover {
+            background: var(--blue-bright);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px rgba(144, 224, 239, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* Ana İçerik Alanı (Mektup) */
         .main-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 100px 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            padding: 20px;
+            z-index: 5;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease 0.3s, visibility 1s ease 0.3s;
+            overflow-y: auto; /* Mektup uzun olduğu için dikey taşmalarda kaydırılabilir */
+        }
+
+        .main-content.show {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* Mektup Kağıdı Konteyneri */
         .letter-container {
             width: 100%;
+            max-width: 800px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 50px 40px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 180, 216, 0.1);
             backdrop-filter: blur(15px);
-            position: relative;
-            transition: all 0.5s ease;
+            margin: auto; /* Scroll edildiğinde üst-alt boşlukları korumak için */
         }
 
         /* Mektup Başlığı */
@@ -116,7 +154,7 @@
             line-height: 2.2;
             font-size: 1.15rem;
             color: #e2e8f0;
-            white-space: pre-wrap; /* Paragrafları ve alt satırları korur */
+            white-space: pre-wrap;
             text-align: left;
         }
 
@@ -128,7 +166,7 @@
         }
         
         .typewriter-text.finished::after {
-            display: none; /* Yazı bitince imleç kaybolur */
+            display: none;
         }
 
         .signature-area {
@@ -151,12 +189,6 @@
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
         }
 
         @keyframes blink {
@@ -182,36 +214,33 @@
         }
 
         @media (max-width: 600px) {
-            .hero h1 { font-size: 3rem; }
+            .hero h1 { font-size: 2.8rem; }
             .letter-container { padding: 30px 20px; }
             .typewriter-text { font-size: 1rem; line-height: 2; }
+            .open-btn { padding: 12px 30px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <section class="hero">
+    <section class="hero" id="hero-screen">
         <h1>İyi Ki Doğdun Minik Yıldızım! 💙</h1>
         <p>Gökyüzündeki en parlak yıldıza, hayatımı güzelleştiren kadına küçük bir doğum günü sürprizi...</p>
-        <button class="scroll-down" onclick="scrollToLetter()">
-            <p style="font-size: 0.85rem; margin-bottom: 5px; letter-spacing: 1px; color: var(--blue-bright);">MEKTUBU AÇ</p>
-            <i class="fas fa-chevron-down"></i>
+        <button class="open-btn" onclick="openLetter()">
+            <i class="fas fa-envelope-open"></i> MEKTUBU AÇ
         </button>
     </section>
 
-    <div class="main-content" id="mektup-alani">
-
+    <div class="main-content" id="letter-screen">
         <div class="letter-container">
             <div class="letter-title">Minik yıldızım, yavrummmm...</div>
-            
             <div id="typewriter" class="typewriter-text"></div>
-
-            <div id="signature" class="signature-area">Seni Çok Seven Adam...</div>
+            <div id="signature" class="signature-area">Yakışıklı Prensin...</div>
         </div>
-
     </div>
 
     <script>
+        // Mavi ve Beyaz Kalp Yağmuru
         const heartColors = ['💙', '🤍', '🩵'];
 
         function createHeart() {
@@ -235,17 +264,21 @@
 
         setInterval(createHeart, 250);
 
-        // Mektup Alanına Yumuşak Kaydırma
-        function scrollToLetter() {
-            document.getElementById('mektup-alani').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(startTypewriter, 500);
+        // Mektubu Açma Fonksiyonu
+        function openLetter() {
+            // Giriş ekranını gizle
+            document.getElementById('hero-screen').classList.add('hidden');
+            // Mektup ekranını görünür yap
+            document.getElementById('letter-screen').classList.add('show');
+            // Daktilo efektini başlat
+            setTimeout(startTypewriter, 800);
         }
 
-        // SENİN YAZIN (Daktilo Efekti İçin Ayrıştırıldı)
+        // Mektup Metni
         const fullText = `Bazen kelimeler hissettiklerimi anlatmaya yetmiyor ama yine de denemek istedim. Hayatıma kattığın o güzel huzur ve sıcaklık için sana ne kadar teşekkür etsem az. Seninle konuştuğum her an, seni düşündüğüm her dakika yüzümde istemsiz bir gülümseme oluşuyor ve içim ısınıyor.\n\nSenin varlığın bana karanlık bir gecede gökyüzündeki en parlak yıldızı hatırlatıyor. Belki farkında değilsin ama en sıradan günleri bile benim için daha güzel ve daha anlamlı hâle getiriyorsun. Güzelliğin, samimiyetin ve güzel kalbin bana her seferinde iyi geliyor.\n\nİster yanımda ol ister kilometrelerce uzakta, seni düşündüğümde kendimi hiç yalnız hissetmiyorum. Tek isteğim, hayatın sana da bana hissettirdiğin o güzel duyguların kat kat fazlasını yaşatması. Çünkü sen her şeyin en güzelini hak ediyorsun.\n\nİyi ki varsın, iyi ki yollarımız kesişmiş. Kendine çok iyi bak olur mu? Gülümsemeyi de hiç bırakma; çünkü o gülüş, benim için en güzel şey. (Büyük ihtimalle bunları okurken gülümsüyor bile olabilirsin)\n\nSeni çok seviyorum, minik yıldızım hemde o kadar çok seviyorum ki kelimelere bile sığmaz. 🤍💙`;
 
         let index = 0;
-        const speed = 45; // Harflerin yazılma hızı (Milisaniye - Değeri düşürürsen daha hızlı yazar)
+        const speed = 45; // Yazım hızı (milisaniye)
         const typewriterElement = document.getElementById('typewriter');
         const signatureElement = document.getElementById('signature');
         let hasStarted = false;
@@ -266,14 +299,6 @@
                 signatureElement.classList.add('show');
             }
         }
-
-        // Eğer kullanıcı butona basmadan eliyle aşağı kaydırırsa da otomatik başlasın diye kontrol:
-        window.addEventListener('scroll', () => {
-            const rect = typewriterElement.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom >= 0) {
-                startTypewriter();
-            }
-        });
     </script>
 </body>
 </html>
