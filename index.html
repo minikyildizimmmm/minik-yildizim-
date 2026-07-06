@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İyi Ki Doğdun Minik Yıldızım! 💙</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0a1128;
+            --bg-light: #1c2541;
+            --blue-light: #00b4d8;
+            --blue-bright: #90e0ef;
+            --text-white: #f8f9fa;
+            --text-gray: #cbd5e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-light) 100%);
+            color: var(--text-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Giriş Ekranı (Neon Efektli) */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+            background: radial-gradient(circle at center, #1e3a8a 0%, var(--bg-dark) 70%);
+        }
+
+        .hero h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            color: var(--blue-bright);
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(144, 224, 239, 0.6);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+            color: var(--text-gray);
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            font-size: 1.2rem;
+            color: var(--blue-bright);
+            animation: bounce 2s infinite;
+            text-align: center;
+            opacity: 0.8;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* Ana İçerik Alanı */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Mektup Kağıdı Konteyneri */
+        .letter-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 180, 216, 0.1);
+            backdrop-filter: blur(15px);
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        /* Mektup Başlığı */
+        .letter-title {
+            font-size: 1.8rem;
+            font-family: 'Dancing Script', cursive;
+            color: var(--blue-bright);
+            margin-bottom: 30px;
+            border-bottom: 1px dashed rgba(144, 224, 239, 0.2);
+            padding-bottom: 15px;
+            text-shadow: 0 0 10px rgba(144, 224, 239, 0.3);
+        }
+
+        /* Daktilo Yazı Alanı */
+        .typewriter-text {
+            font-family: 'Courier Prime', monospace;
+            line-height: 2.2;
+            font-size: 1.15rem;
+            color: #e2e8f0;
+            white-space: pre-wrap; /* Paragrafları ve alt satırları korur */
+            text-align: left;
+        }
+
+        /* Daktilo İmleci (Cursor) Animasyonu */
+        .typewriter-text::after {
+            content: '█';
+            color: var(--blue-bright);
+            animation: blink 0.8s infinite;
+        }
+        
+        .typewriter-text.finished::after {
+            display: none; /* Yazı bitince imleç kaybolur */
+        }
+
+        .signature-area {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            text-align: right;
+            color: var(--blue-bright);
+            margin-top: 40px;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            text-shadow: 0 0 10px rgba(144, 224, 239, 0.3);
+        }
+
+        .signature-area.show {
+            opacity: 1;
+        }
+
+        /* Animasyonlar */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Mavi & Beyaz Kalp Yağmuru */
+        .heart {
+            position: fixed;
+            font-size: 20px;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 999;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 3rem; }
+            .letter-container { padding: 30px 20px; }
+            .typewriter-text { font-size: 1rem; line-height: 2; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <h1>İyi Ki Doğdun Minik Yıldızım! 💙</h1>
+        <p>Gökyüzündeki en parlak yıldıza, hayatımı güzelleştiren kadına küçük bir doğum günü sürprizi...</p>
+        <button class="scroll-down" onclick="scrollToLetter()">
+            <p style="font-size: 0.85rem; margin-bottom: 5px; letter-spacing: 1px; color: var(--blue-bright);">MEKTUBU AÇ</p>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+    </section>
+
+    <div class="main-content" id="mektup-alani">
+
+        <div class="letter-container">
+            <div class="letter-title">Minik yıldızım, yavrummmm...</div>
+            
+            <div id="typewriter" class="typewriter-text"></div>
+
+            <div id="signature" class="signature-area">Seni Çok Seven Adam...</div>
+        </div>
+
+    </div>
+
+    <script>
+        const heartColors = ['💙', '🤍', '🩵'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            const randomColor = heartColors[Math.floor(Math.random() * heartColors.length)];
+            heart.innerHTML = randomColor;
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random() * 0.6 + 0.4;
+            heart.style.fontSize = Math.random() * 15 + 12 + 'px';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 250);
+
+        // Mektup Alanına Yumuşak Kaydırma
+        function scrollToLetter() {
+            document.getElementById('mektup-alani').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(startTypewriter, 500);
+        }
+
+        // SENİN YAZIN (Daktilo Efekti İçin Ayrıştırıldı)
+        const fullText = `Bazen kelimeler hissettiklerimi anlatmaya yetmiyor ama yine de denemek istedim. Hayatıma kattığın o güzel huzur ve sıcaklık için sana ne kadar teşekkür etsem az. Seninle konuştuğum her an, seni düşündüğüm her dakika yüzümde istemsiz bir gülümseme oluşuyor ve içim ısınıyor.\n\nSenin varlığın bana karanlık bir gecede gökyüzündeki en parlak yıldızı hatırlatıyor. Belki farkında değilsin ama en sıradan günleri bile benim için daha güzel ve daha anlamlı hâle getiriyorsun. Güzelliğin, samimiyetin ve güzel kalbin bana her seferinde iyi geliyor.\n\nİster yanımda ol ister kilometrelerce uzakta, seni düşündüğümde kendimi hiç yalnız hissetmiyorum. Tek isteğim, hayatın sana da bana hissettirdiğin o güzel duyguların kat kat fazlasını yaşatması. Çünkü sen her şeyin en güzelini hak ediyorsun.\n\nİyi ki varsın, iyi ki yollarımız kesişmiş. Kendine çok iyi bak olur mu? Gülümsemeyi de hiç bırakma; çünkü o gülüş, benim için en güzel şey. (Büyük ihtimalle bunları okurken gülümsüyor bile olabilirsin)\n\nSeni çok seviyorum, minik yıldızım hemde o kadar çok seviyorum ki kelimelere bile sığmaz. 🤍💙`;
+
+        let index = 0;
+        const speed = 45; // Harflerin yazılma hızı (Milisaniye - Değeri düşürürsen daha hızlı yazar)
+        const typewriterElement = document.getElementById('typewriter');
+        const signatureElement = document.getElementById('signature');
+        let hasStarted = false;
+
+        function startTypewriter() {
+            if (hasStarted) return;
+            hasStarted = true;
+            type();
+        }
+
+        function type() {
+            if (index < fullText.length) {
+                typewriterElement.textContent += fullText.charAt(index);
+                index++;
+                setTimeout(type, speed);
+            } else {
+                typewriterElement.classList.add('finished');
+                signatureElement.classList.add('show');
+            }
+        }
+
+        // Eğer kullanıcı butona basmadan eliyle aşağı kaydırırsa da otomatik başlasın diye kontrol:
+        window.addEventListener('scroll', () => {
+            const rect = typewriterElement.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                startTypewriter();
+            }
+        });
+    </script>
+</body>
+</html>
